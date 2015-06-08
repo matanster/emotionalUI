@@ -22,10 +22,14 @@ var circle = svg.selectAll("circle")
 
   movementRate = 5
 
-  d3.timer(function() {
+  function step() {
+    // reset circle positions
+    circle.transition()
+        .attr("cx", function(d) { d.cx += Math.sign(Math.random() - .5) * movementRate; if (d.cx > w) d.cx = w; else if (d.cx < 0) d.x = 0; return d.cx; })
+        .attr("cy", function(d) { d.cy += Math.sign(Math.random() - .5) * movementRate; if (d.cy > h) d.cy = h; else if (d.cy < 0) d.y = 0; return d.cy; })
+        .duration(1000)
+        .ease("linear")
+  }
 
-  // Update the circle positions.
-  circle
-      .attr("cx", function(d) { d.cx += Math.sign(Math.random() - .5) * movementRate; if (d.cx > w) d.cx -= w; else if (d.cx < 0) d.x += w; return d.cx; })
-      .attr("cy", function(d) { d.cy += Math.sign(Math.random() - .5) * movementRate; if (d.cy > h) d.cy -= h; else if (d.cy < 0) d.y += h; return d.cy; });
-});
+  step()
+  window.setInterval(step, 500)
