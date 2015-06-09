@@ -20,26 +20,38 @@ app.use(express.static('public'));
 app.get('/emotion', function (req, res, next) {
     console.log('got emotion: ' + req.query.type + '=' + req.query.value)
     res.end('Ok');
+    wss.clients.map(function(client){ 
+      client.send(JSON.stringify({ type: req.query.type,
+                                   value: req.query.value }))})
     next();
 });
 
-// start the general server
+// start the http server and the websocket server
 var server = app.listen(port, function() {
   console.log('server listening on port ' + port);
   startWebSocketServer()
 });
 
 function startWebSocketServer() {
+
+  //
   // start the websocket server
+  //
   var WebSocketServer = require('ws').Server;
 
   console.log('starting websocket server on port ' + webSocketPort);
    
   wss = new WebSocketServer({port: webSocketPort});
-  wss.on('connection', function(ws) {
+  
+  //
+  // define handling for any browser-established websocket connection
+  //
+  wss.on('connection', function(ws) { 
       console.log('a Websocket client now connected')
+
       ws.on('message', function(message) { console.log('received websocket message: %s', message); });
-      ws.send('connected');
+
+      ws.send('hello message from server');
   });
 
   // alternatively see for sharing on the http server's port in: (look for "precreated")

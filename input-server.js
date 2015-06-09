@@ -18,10 +18,24 @@ function loop() {
 
 function sendEmotion(type, value) {
 
-  var request = "http://" + displayServerEndPoint + '?' + 'type=' + encodeURIComponent(type) + '&' 
-                + 'value=' + encodeURIComponent(value);
-  console.log(request)
-  http.get(request, function(res){})
+  var requestUrl = "http://" + displayServerEndPoint + '?' + 'type=' + encodeURIComponent(type) + '&' 
+                    + 'value=' + encodeURIComponent(value);
+
+  var request = {
+    hostname  : displayServerEndPointHost,
+    port      : displayServerEndPointPort,
+    path      : displayServerEndPointPath + 
+               '?' + 'type=' + encodeURIComponent(type) + '&' + 
+               'value=' + encodeURIComponent(value),
+    keepAlive : true
+  }
+
+  console.log('sending emotion as ' + requestUrl)
+  http.get(request, function(res){ 
+    res.on('data', function() { }); // must process this otherwise takes up one connection indefinitely
+    //console.log("Got response: " + res.statusCode); 
+  })
+
   .on('error', function(e) {
     console.log('failed sending to display server, error: ' + e.message); });
 

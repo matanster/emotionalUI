@@ -136,5 +136,9 @@ ws.onclose = function(event) {
 };
 
 ws.onmessage = function(event) {
-    console.log('received: %s', event.data);
+    try {
+      console.log(JSON.parse(event.data));
+    } catch(e) {
+      console.log('received: %s', event.data);
+    }
 };
