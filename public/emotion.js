@@ -1,3 +1,6 @@
+var hostWebSocketPort = 8080
+var hostName          = 'localhost'
+
 numberOfBalls  = 90
 movementRate   = 20
 radiusBase     = 50
@@ -75,47 +78,63 @@ var circle = svg.selectAll("circle")
     .style("fill", function(d) {return d.color})
     .style("fill-opacity", 0.95)
 
-  function evolveX(d) {
-    
-          //console.log(d.xdir)
-          d.cx += d.xdir * movementRate; 
-          if (d.cx > w) 
-            { d.cx = w; d.xdir = dirInit() }
-          else if (d.cx < 0) 
-            { d.cx = 0; d.xdir = dirInit()}
-          d.xdir += (Math.random() - .5) * 2.5
-          return d.cx; 
-  }
+function evolveX(d) {
+  
+        //console.log(d.xdir)
+        d.cx += d.xdir * movementRate; 
+        if (d.cx > w) 
+          { d.cx = w; d.xdir = dirInit() }
+        else if (d.cx < 0) 
+          { d.cx = 0; d.xdir = dirInit()}
+        d.xdir += (Math.random() - .5) * 2.5
+        return d.cx; 
+}
 
-  function evolveY(d) {
-    
-          //console.log(d.xdir)
-          d.cy += d.ydir * movementRate; 
-          if (d.cy > h) 
-            { d.cy = h; d.ydir = dirInit() }
-          else if (d.cy < 0) 
-            { d.cy = 0; d.ydir = dirInit() }
-          d.ydir += (Math.random() - .5) * 2.5
-          return d.cy; 
-  }
+function evolveY(d) {
+  
+        //console.log(d.xdir)
+        d.cy += d.ydir * movementRate; 
+        if (d.cy > h) 
+          { d.cy = h; d.ydir = dirInit() }
+        else if (d.cy < 0) 
+          { d.cy = 0; d.ydir = dirInit() }
+        d.ydir += (Math.random() - .5) * 2.5
+        return d.cy; 
+}
 
-  function evolveR(d) {
-    d.r *= 1 + ((Math.random() - .5) * 0.3)
-    if (d.r > radiusMax) d.r = radiusMax
-    if (d.r < radiusMin) d.r = radiusMin
-    return d.r
-  }
+function evolveR(d) {
+  d.r *= 1 + ((Math.random() - .5) * 0.3)
+  if (d.r > radiusMax) d.r = radiusMax
+  if (d.r < radiusMin) d.r = radiusMin
+  return d.r
+}
 
-  function step() {
-    // reset circle positions
-    circle.transition()
-        .attr("cx", evolveX)
-        .attr("cy", evolveY)
-        .attr("r", evolveR)
-        //.attr("cy", function(d) { d.cy += Math.sign(Math.random() - .5) * movementRate; if (d.cy > h) d.cy = h; else if (d.cy < 0) d.y = 0; return d.cy; })
-        .duration(stepDuration)
-        .ease("linear")
-  }
+function step() {
+  // reset circle positions
+  circle.transition()
+      .attr("cx", evolveX)
+      .attr("cy", evolveY)
+      .attr("r", evolveR)
+      //.attr("cy", function(d) { d.cy += Math.sign(Math.random() - .5) * movementRate; if (d.cy > h) d.cy = h; else if (d.cy < 0) d.y = 0; return d.cy; })
+      .duration(stepDuration)
+      .ease("linear")
+}
 
-  step()
-  window.setInterval(step, stepDuration)
+step()
+window.setInterval(step, stepDuration)
+
+//
+// websocket communication with the server, for continuous visualization changing
+//
+
+var ws = new WebSocket('ws://' + hostName + ':' + hostWebSocketPort);
+ws.onopen = function(event) {
+  console.log('websocket connection to ' + hostName + ' (on port ' + hostWebSocketPort + ') now open')
+};
+ws.onclose = function(event) {
+  console.log('websocket connection to ' + hostName + ' (on port ' + hostWebSocketPort + ') closed now - did you expect this?')
+};
+
+ws.onmessage = function(event) {
+    console.log('received: %s', event.data);
+};
