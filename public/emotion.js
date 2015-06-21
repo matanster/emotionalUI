@@ -8,19 +8,19 @@ radiusVariance = 1.3
 radiusMax      = 100
 radiusMin      = 30
 stepDuration   = 2000
-baseColor      = d3.hsl("blue")
+baseColor      = d3.hsl("#0015FF").brighter(0)
 
 //var displayText = "Lorem Ipsum"
 var displayText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-var displayTextColor = "#AADD99"
+var displayTextColor = "#E0EEDD"
 
 function dirInit() { return Math.sign(Math.random() - .5) }
 
 var w = document.body.clientWidth, // http://ryanve.com/lab/dimensions/
     h = document.body.clientHeight;
 
-var textFramexPad = w * .2
-var textFrameyPad = h * .2
+var textFramexPad = w * .25
+var textFrameyPad = h * .25
 
 resize = function() {
   console.log("reloading on resize"); location.reload()
@@ -48,7 +48,7 @@ var textFrame = d3.select("body").append("div")
 
                                  // colors
                                  .style("color", displayTextColor)
-                                 .style("background-color", baseColor.brighter(-0.4))
+                                 .style("background-color", baseColor.brighter(0.2))
 
 
                                  // internal allignment (using a nested div hack)
