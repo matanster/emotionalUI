@@ -10,6 +10,8 @@ radiusMin      = 30
 stepDuration   = 2000
 baseColor      = d3.hsl("#0015FF").brighter(0)
 
+textFontPx     = "35px"
+
 //var displayText = "Lorem Ipsum"
 var displayText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 var displayTextColor = "#E0EEDD"
@@ -43,7 +45,7 @@ var textFrame = d3.select("body").append("div")
 
                                  // font 
                                  .style("font-family", "Helvetica")
-                                 .style("font-size", "35px")
+                                 .style("font-size", textFontPx)
                                  .style("font-style", "italic")
 
                                  // colors
