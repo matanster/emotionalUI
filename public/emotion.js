@@ -10,6 +10,7 @@ radiusMin      = 30
 stepDuration   = 2000
 baseColor      = d3.hsl("blue")
 
+//var displayText = "Lorem Ipsum"
 var displayText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 var displayTextColor = "#AADD99"
 
@@ -18,14 +19,16 @@ function dirInit() { return Math.sign(Math.random() - .5) }
 var w = document.body.clientWidth, // http://ryanve.com/lab/dimensions/
     h = document.body.clientHeight;
 
-var textFramexPad = w * .3
-var textFrameyPad = h * .3
+var textFramexPad = w * .2
+var textFrameyPad = h * .2
+
+resize = function() {
+  console.log("reloading on resize"); location.reload()
+}; window.onresize = resize;
 
 var svg = d3.select("body").append("svg:svg")
                            .attr("width", w).attr("height", h)
                            .style("background-color", baseColor.brighter(-0.2))
-
-console.log(textFramexPad.toString() + "px")
 
 var textFrame = d3.select("body").append("div")
                                  // location and dimensions
@@ -40,21 +43,21 @@ var textFrame = d3.select("body").append("div")
 
                                  // font 
                                  .style("font-family", "Helvetica")
-                                 .style("font-size", "26px")
+                                 .style("font-size", "35px")
                                  .style("font-style", "italic")
 
                                  // colors
                                  .style("color", displayTextColor)
                                  .style("background-color", baseColor.brighter(-0.4))
 
-                                 // internal margin
-                                 .style("padding", "2em")
 
                                  // internal allignment (using a nested div hack)
                                  .style("display", "table")
                                  .append("div")
                                     .style("display", "table-cell")
                                     .style("vertical-align", "middle")
+                                    .style("padding", "2em") // internal margin!
+
                                  //.style("text-align", "center")
 
 textFrame.text(displayText)
