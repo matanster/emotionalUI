@@ -1,6 +1,6 @@
 //var port = (process.env.VCAP_APP_PORT || 8888); 
 var displayServerEndPointPath = '/emotion'
-var port                      = 8000
+var port                      = process.env.PORT || 8000
 var webSocketPort             = 8080
 var http                      = require('http');
 
